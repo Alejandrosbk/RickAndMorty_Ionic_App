@@ -1,0 +1,29 @@
+<ion-header no-border>
+    <ion-toolbar no-border>
+        <ion-title size="medium" class="ion-text-center greenrm">Rick and Morty App</ion-title>
+    </ion-toolbar>
+    <ion-searchbar animated placeholder="Buscar" (ionChange)="onSearch( $event )"></ion-searchbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col sizeMd="6" offsetMd="3">
+                <div *ngIf="characters.length <= 0" class="ion-content ion-text-center">
+                    <ion-text>Ups... Revisa tu conexión</ion-text>
+                </div>
+                <ion-list>
+                    <ion-item *ngFor="let character of characters | filtro:textSearch: 'name'" [routerLink]="['/profile-character/' + character.id]">
+                        <ion-avatar slot="start">
+                            <img src="{{ character.image }}" alt="{{ character.name }}">
+                        </ion-avatar>
+                        <ion-label>{{ character.name }}</ion-label>
+                    </ion-item>
+                </ion-list>
+                <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+                    <ion-infinite-scroll-content loadingSpinner="circles" loadingText="Cargando Personajes..."></ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
